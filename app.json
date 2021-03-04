@@ -1,0 +1,69 @@
+{
+  "id": "2adcd7da-0888-40e4-b212-ec9f363537fd",
+  "name": "WEH_BGC",
+  "publisher": "AVISION",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
+      "publisher": "Microsoft",
+      "name": "System Application",
+      "version": "16.0.0.0"
+    },
+    {
+      "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
+      "publisher": "Microsoft",
+      "name": "Base Application",
+      "version": "16.0.0.0"
+    },
+    {
+      "id": "39aee12a-6147-40fa-862c-94295dd8246b",
+      "publisher": "AVISIONTH",
+      "name": "VAT and Withholding Tax Localization for Thailand",
+      "version": "1.0.0.4"
+    },
+    {
+      "id": "9c327d8e-c855-43e2-aacf-840a2bc27471",
+      "publisher": "AVISIONTH",
+      "name": "Admin extensions module",
+      "version": "1.0.0.0"
+    },
+    {
+      "id": "d92d0f80-84c9-4ade-9ca0-a831d88621a2",
+      "publisher": "AVISIONTH",
+      "name": "Finance extensions module",
+      "version": "1.0.0.4"
+    },
+    {
+      "id": "f2d1bc63-48a6-4936-b1b6-a4023f9c7111",
+      "publisher": "AVISIONTH",
+      "name": "Trading extensions module",
+      "version": "1.0.0.1"
+    },
+    {
+      "id": "250c5790-86b8-4602-b56e-94b8838e1d59",
+      "publisher": "AVISION",
+      "name": "WEH_SCM",
+      "version": "1.0.0.0"
+    }
+  ],
+  "screenshots": [],
+  "platform": "16.0.0.0",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 99999
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://WEH_BGC.com/help/",
+  "showMyCode": true,
+  "target": "OnPrem",
+  "runtime": "5.0"
+}
