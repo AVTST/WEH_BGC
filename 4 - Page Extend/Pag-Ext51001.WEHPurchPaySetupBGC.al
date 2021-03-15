@@ -12,6 +12,10 @@ pageextension 51001 "WEH_Purch. & Pay. Setup BGC" extends "Purchases & Payables 
             {
                 ApplicationArea = All;
             }
+            field("WEH_PO Outstanding Diff."; "WEH_PO Outstanding Diff.")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 }

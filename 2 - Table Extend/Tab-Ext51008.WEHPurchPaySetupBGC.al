@@ -12,5 +12,9 @@ tableextension 51008 "WEH_Purch. & Pay. Setup BGC" extends "Purchases & Payables
             Caption = 'PO Corp. Nos.';
             TableRelation = "No. Series";
         }
+        field(50011; "WEH_PO Outstanding Diff."; Decimal)
+        {
+            Caption = 'PO Outstanding Diff.';
+        }
     }
 }

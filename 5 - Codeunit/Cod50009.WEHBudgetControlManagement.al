@@ -225,7 +225,7 @@ codeunit 50009 "WEH_Budget Control Management"
         PurchaseHead.testfield("Order Date");
 
         IF PurchaseHead."WEH_Commit PO" = PurchaseHead."WEH_Commit PO"::COMMIT THEN
-            ERROR('PO No. %1 is already committed', PurchaseHead."No.");
+            exit;
 
         IF CONFIRM('Do you want to commit PO No. %1?', TRUE, PurchaseHead."No.") THEN BEGIN
             //IF PurchaseHead."WEH_Budget Document Type" = PurchaseHead."WEH_Budget Document Type"::Corporate THEN BEGIN
@@ -245,6 +245,7 @@ codeunit 50009 "WEH_Budget Control Management"
     local procedure CommitByLine(DocType: Enum "Purchase Document Type"; DocNo: Code[20]): Boolean
     var
         GLSetup: Record "General Ledger Setup";
+        PurchSetup: Record "Purchases & Payables Setup";
         GLBudgetName: Record "G/L Budget Name";
         PurchHead: Record "Purchase Header";
         PurchLine: Record "Purchase Line";
@@ -274,6 +275,9 @@ codeunit 50009 "WEH_Budget Control Management"
         GLSetup.GET();
         GLSetup.TESTFIELD("WEH_G/L for Budget Type C");
 
+        Clear(PurchSetup);
+        PurchSetup.Get();
+
         Clear(PurchHead);
         PurchHead.Get(DocType, DocNo);
 
@@ -288,7 +292,7 @@ codeunit 50009 "WEH_Budget Control Management"
             REPEAT
                 CLEAR(NewPurchLine);
                 IF NewPurchLine.GET(NewPurchLine."Document Type"::Quote, PurchLine."AVTD_Ref. Doc. No.", PurchLine."AVTD_Ref. Line No.") THEN begin
-                    IF PurchLine."Outstanding Amt. Ex. VAT (LCY)" > NewPurchLine."Outstanding Amt. Ex. VAT (LCY)" THEN
+                    IF PurchLine."Outstanding Amt. Ex. VAT (LCY)" > (NewPurchLine."Outstanding Amt. Ex. VAT (LCY)" + PurchSetup."WEH_PO Outstanding Diff.") THEN
                         Error('Outstanding Amt. Ex. VAT (LCY) cannot more than %1 in PR No. %2 Line No. %3', NewPurchLine."Outstanding Amt. Ex. VAT (LCY)", NewPurchLine."Document No.", NewPurchLine."Line No.");
 
                     if PurchLine."WEH_Budget Type" = PurchLine."WEH_Budget Type"::O then begin
@@ -1636,14 +1640,17 @@ codeunit 50009 "WEH_Budget Control Management"
     procedure CancelPO(var PurchHead: Record "Purchase Header");
     var
         PurchLine: Record "Purchase Line";
+        Conf001: Label 'Do you want to cancel PO No. %1?';
+        Err001: Label 'Please delete all lines before cancel.';
     begin
         PurchHead.TestField("WEH_Commit PO", PurchHead."WEH_Commit PO"::" ");
 
-        if Confirm('Do you want to cancel PO No. %1?', true, PurchHead."No.") then begin
+        if Confirm(Conf001, true, PurchHead."No.") then begin
             Clear(PurchLine);
             PurchLine.SetCurrentKey("Document Type", "Document No.");
             PurchLine.SetRange("Document No.", PurchHead."No.");
             PurchLine.SetRange("Document Type", PurchHead."Document Type");
+            /*
             if PurchLine.FindSet() then
                 repeat
                     if PurchLine."Quantity Received" <> 0 then
@@ -1667,6 +1674,9 @@ codeunit 50009 "WEH_Budget Control Management"
                     PurchLine."Outstanding Amt. Ex. VAT (LCY)" := 0;
                     PurchLine.Modify();
                 until PurchLine.Next() = 0;
+            */
+            if not PurchLine.IsEmpty then
+                Error(Err001);
 
             PurchHead."AVTD_Purchase Status" := PurchHead."AVTD_Purchase Status"::Cancel;
             PurchHead.AVTD_FINISHED := true;
