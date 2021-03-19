@@ -289,6 +289,10 @@ page 50097 "WEH_Purchase Order Corporate"
                 {
                     ApplicationArea = All;
                 }
+                field("WEH_Comment"; WEH_Comment)
+                {
+                    ApplicationArea = All;
+                }
             }
             part(PurchLines; "WEH_Purchase Order Sub. Corp.")
             {
